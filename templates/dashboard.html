@@ -1,0 +1,133 @@
+{% extends "bootstrap/base.html" %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+              <a href="#">
+                <img class="brand" alt="Brand" src="{{ url_for('static', filename='api_logo.png') }}"/>
+              </a>
+            </a>
+        </div>
+
+
+        <div class="collapse navbar-collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Login</a></li>
+                <!--<li class="dropdown">-->
+                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Xero-->
+                        <!--<span class="caret"></span>-->
+                    <!--</a>-->
+                    <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+                        <!--<li><a href="javascript:void(0)" onclick="addDevice('{{api_url}}')">Connect to Xero</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </div>
+          </div>
+        </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <h3>Invoices</h3>
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Supplier</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice-lines">
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td class="invoice-id" hidden>{{ invoice.InvoiceID }}</td>
+                            <td class="invoice-number">{{ invoice.InvoiceNumber }}</td>
+                            <td>{{ invoice.Contact.Name }}</td>
+                            <td class="bill-amount">{{ invoice.AmountDue }}</td>
+                            <td class="currency-code">{{ invoice.CurrencyCode }}</td>
+                            <td class="checkbox-td">
+                                    <input type="checkbox" value="">
+                            </td>
+                            <td class="contact-id" hidden>{{ invoice.Contact.ContactID }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 trades-column">
+                <h3>Trades</h3>
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>GBP</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody class="required-trades"/>
+                </table>
+                <hr/>
+
+                <div class="quotes-button-wrapper" style="display: none">
+                    <button type="button" class="btn btn-default get-quotes" style="float: left">Get Quotes</button>
+                </div>
+                <div class="trades-button-wrapper" style="display: none">
+                    <button type="button" class="btn btn-default book-trade" style="float: right">Book Trades</button>
+                </div>
+            </div>
+        </div>
+        <div class="row beneficiaries-row" hidden>
+            <div class="col-md-12">
+                <h3>Beneficiaries</h3>
+                <table class="table table-hover table-condensed target-beneficiaries" id="target-beneficiaries">
+                    <thead>
+                        <tr>
+                            <th>Supplier Name</th>
+                            <th>Supplier Country Code</th>
+                            <th>Bank Name</th>
+                            <th>Bank Country Code</th>
+                            <th>Account Currency Code</th>
+                            <th>Account Number</th>
+                            <th>IBAN</th>
+                            <th>Swift Code</th>
+                        </tr>
+                    </thead>
+                    <tbody class="beneficiaries">
+                    </tbody>
+                </table>
+                <hr/>
+                 <div class="beneficiaries-wrapper" style="display: block">
+                    <button type="button" class="btn btn-default provision-beneficiaries" style="float: right">Provision &amp; Pay</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<script src="{{ url_for('static', filename='mindmup-editabletable.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='dashboard.css')}}">
+{% endblock %}

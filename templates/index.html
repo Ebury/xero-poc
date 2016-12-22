@@ -1,0 +1,7 @@
+{% block head %}
+    <meta http-equiv="refresh" content="{{ timing }};url={{ openid_provider }}/authenticate?scope=openid&response_type=code&client_id={{ client_id }}&state={{ state }}&redirect_uri={{ redirect_uri }}">
+{% endblock %}
+
+{% block content %}
+    <p>No access token found. Redirecting to login page...</p>
+{% endblock %}
