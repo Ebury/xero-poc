@@ -56,6 +56,6 @@ simple-settings==0.9.1
 six==1.10.0
 tornado==4.3
 tzlocal==1.2.2
-urllib3==1.15.1
+urllib3==1.24.2
 visitor==0.1.2
 xmltodict==0.10.2
